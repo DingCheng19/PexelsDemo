@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- 指定圆角矩形的4个圆角的半径 -->
+    <corners android:topLeftRadius="2dp"
+        android:topRightRadius="2dp"
+        android:bottomLeftRadius="2dp"
+        android:bottomRightRadius="2dp"
+        />
+<!--    &lt;!&ndash; 指定边框线条的宽度和颜色 &ndash;&gt;-->
+<!--    <stroke android:width="4dp" android:color="#f0f"/>-->
+
+    <!-- 指定使用渐变背景色，使用sweep类型的渐变，颜色从红色到绿色再到蓝色 -->
+    <gradient android:startColor="#FDFBFB"
+        android:endColor="#858587"
+
+        />
+</shape>

@@ -8,6 +8,6 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET("search")
-    suspend fun getImagesBySearch(@Query("query") keywd:String, @Query("per_page") pageno:Int): SearchImageResult
+    suspend fun getImagesBySearch(@Query("query") keywd:String, @Query("per_page") pageno:Int, @Query("page") page:Int): SearchImageResult
 
 }
