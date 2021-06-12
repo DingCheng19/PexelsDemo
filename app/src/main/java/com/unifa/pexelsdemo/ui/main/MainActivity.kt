@@ -1,14 +1,18 @@
 package com.unifa.pexelsdemo.ui.main
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.unifa.pexelsdemo.R
 import com.unifa.pexelsdemo.data.api.ApiHelper
 import com.unifa.pexelsdemo.data.api.RetrofitBuilder
@@ -25,9 +29,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var mActivityMainBinding: ActivityMainBinding
-    private var START_PAGE:Int = 1
-    private var data:ArrayList<PlPhoto> = arrayListOf()
-    private lateinit var mKeyWord:String
+    private var START_PAGE: Int = 1
+    private var data: ArrayList<PlPhoto> = arrayListOf()
+    private lateinit var mKeyWord: String
+    private lateinit var mEndLessOnScrollListener: EndLessOnScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
@@ -52,11 +57,23 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "キーワードを空栏にしてはいけません", Toast.LENGTH_SHORT).show()
             } else {
                 data.clear()
-                getImagesBySearch(mKeyWord,START_PAGE)
+                mEndLessOnScrollListener.init()
+                //mActivityMainBinding.recyclerView.adapter?.notifyDataSetChanged()
+                hideKeyboard()
+                getImagesBySearch(mKeyWord, START_PAGE)
             }
         })
     }
 
+    private fun Activity.hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(findViewById<View>(android.R.id.content).windowToken, 0);
+    }
+
+//    fun View.hideKeyboard() {
+//        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.hideSoftInputFromWindow(windowToken, 0)
+//    }
 //    private fun setupViewModel() {
 //        viewModel = ViewModelProviders.of(
 //            this,
@@ -70,8 +87,8 @@ class MainActivity : AppCompatActivity() {
 //        viewModel.isLoading
 //    }
 
-    fun getImagesBySearch(keyWord: String,page:Int) {
-        viewModel.getImagesBySearch(keyWord,page).observe(this, Observer {
+    fun getImagesBySearch(keyWord: String, page: Int) {
+        viewModel.getImagesBySearch(keyWord, page).observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -89,21 +106,27 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun setupRecyclerView(){
+    fun setupRecyclerView() {
         val layoutManager = LinearLayoutManager(this)
         mActivityMainBinding.recyclerView.layoutManager = layoutManager
-        mActivityMainBinding.recyclerView.adapter = PhotosRecyclerViewAdapter(this,data,object : IImageClick{
-            override fun onImageClickCallBack(url: String) {
-                val intent = Intent(applicationContext, DetailActivity::class.java).apply {
-                    putExtra(IMAGEURL, url)
+        mActivityMainBinding.recyclerView.adapter =
+            PhotosRecyclerViewAdapter(this, data, object : IImageClick {
+                override fun onImageClickCallBack(url: String) {
+                    val intent = Intent(applicationContext, DetailActivity::class.java).apply {
+                        putExtra(IMAGEURL, url)
+                    }
+                    startActivity(intent)
                 }
-                startActivity(intent)
-            }
-        })
-        mActivityMainBinding.recyclerView.addOnScrollListener(object : EndLessOnScrollListener(layoutManager) {
+            })
+
+        mEndLessOnScrollListener = object :
+            EndLessOnScrollListener(layoutManager) {
             override fun onLoadMore(currentPage: Int) {
-                getImagesBySearch(mKeyWord,currentPage)
+                getImagesBySearch(mKeyWord, currentPage)
             }
-        })
+        }
+        mEndLessOnScrollListener.init()
+
+        mActivityMainBinding.recyclerView.addOnScrollListener(mEndLessOnScrollListener)
     }
 }

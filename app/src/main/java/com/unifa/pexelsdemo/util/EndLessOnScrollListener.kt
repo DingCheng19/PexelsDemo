@@ -43,6 +43,11 @@ abstract class EndLessOnScrollListener(  //声明一个LinearLayoutManager
         }
     }
 
+    fun init(){
+        currentPage = 1
+        previousTotal = 0
+    }
+
     /**
      * 提供一个抽闲方法，在Activity中监听到这个EndLessOnScrollListener
      * 并且实现这个方法
