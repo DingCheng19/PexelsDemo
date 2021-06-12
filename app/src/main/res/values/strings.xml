@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PexelsDemo</string>
+    <string name="main_search">検索</string>
+    <string name="main_keyword_hint">キーワードを入力してください</string>
 </resources>

@@ -7,7 +7,9 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        card_view:cardCornerRadius="4dp">
+        card_view:cardCornerRadius="8dp"
+        android:layout_marginBottom="8dp"
+        >
         <ImageView
             android:id="@+id/image"
             android:scaleType="centerCrop"
@@ -18,7 +20,9 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/name"
-            android:background="#80ffffff"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:background="@drawable/tx_bg"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

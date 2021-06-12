@@ -92,14 +92,16 @@ class MainActivity : AppCompatActivity() {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
+                        mActivityMainBinding.progressBar.visibility = View.INVISIBLE
                         it.data?.let { it1 -> data.addAll(it1.photos) }
                         mActivityMainBinding.recyclerView.adapter?.notifyDataSetChanged()
                     }
                     Status.ERROR -> {
+                        mActivityMainBinding.progressBar.visibility = View.INVISIBLE
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
-
+                        mActivityMainBinding.progressBar.visibility = View.VISIBLE
                     }
                 }
             }
