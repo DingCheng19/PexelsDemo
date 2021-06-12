@@ -65,4 +65,7 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
+
+    //implementation 'com.github.santalu:aspect-ratio-imageview:1.0.9'
+    implementation 'com.github.allenxuan:xuanimageview:0.5.0'
 }
