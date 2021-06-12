@@ -1,5 +1,6 @@
 package com.unifa.pexelsdemo.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -15,6 +16,8 @@ import com.unifa.pexelsdemo.data.http.Status
 import com.unifa.pexelsdemo.data.model.PlPhoto
 import com.unifa.pexelsdemo.databinding.ActivityMainBinding
 import com.unifa.pexelsdemo.ui.base.ViewModelFactory
+import com.unifa.pexelsdemo.ui.detail.DetailActivity
+import com.unifa.pexelsdemo.util.Constant.IMAGEURL
 import com.unifa.pexelsdemo.util.EndLessOnScrollListener
 
 
@@ -90,8 +93,11 @@ class MainActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         mActivityMainBinding.recyclerView.layoutManager = layoutManager
         mActivityMainBinding.recyclerView.adapter = PhotosRecyclerViewAdapter(this,data,object : IImageClick{
-            override fun onImageClickCallBack(id: String) {
-                TODO("Not yet implemented")
+            override fun onImageClickCallBack(url: String) {
+                val intent = Intent(applicationContext, DetailActivity::class.java).apply {
+                    putExtra(IMAGEURL, url)
+                }
+                startActivity(intent)
             }
         })
         mActivityMainBinding.recyclerView.addOnScrollListener(object : EndLessOnScrollListener(layoutManager) {

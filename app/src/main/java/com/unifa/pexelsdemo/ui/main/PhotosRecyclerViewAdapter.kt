@@ -46,7 +46,7 @@ class PhotosRecyclerViewAdapter(private val context:Context,private val dataSet:
         viewHolder.textView.text = dataSet[position].photographer
         Glide.with(context).load(dataSet[position].src.original).placeholder(R.drawable.ic_image_placeholder).into(viewHolder.photo)
         viewHolder.photo.setOnClickListener(View.OnClickListener {
-            iimageClick.onImageClickCallBack(dataSet[position].id)
+            iimageClick.onImageClickCallBack(dataSet[position].src.original)
         })
     }
 

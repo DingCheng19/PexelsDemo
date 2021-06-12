@@ -1,5 +1,5 @@
 package com.unifa.pexelsdemo.ui.main
 
 interface IImageClick {
-    fun onImageClickCallBack(id:String)
+    fun onImageClickCallBack(url:String)
 }
